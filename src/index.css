@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@source "./src";
+
+:root {
+  --medical-blue: #0b5cff;
+  --medical-blue-light: #e6efff;
+  --medical-blue-dark: #003db3;
+  --medical-green: #10b981;
+  --medical-green-light: #d1fae5;
+  --medical-red: #ef4444;
+  --medical-red-light: #fee2e2;
+  --medical-orange: #f59e0b;
+  --medical-orange-light: #fef3c7;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+}
