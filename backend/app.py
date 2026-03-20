@@ -9,8 +9,25 @@ from preventive_care import generate_preventive_care
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/predict', methods=['POST'])
+@app.route('/')
+def index():
+    return jsonify({
+        'status': 'online',
+        'message': 'Health Prediction API is running. Use the frontend at http://localhost:5173 to interact with it.',
+        'endpoints': {
+            '/predict': 'POST only - Send health data to get predictions'
+        }
+    })
+
+@app.route('/predict', methods=['GET', 'POST'])
 def predict():
+    if request.method == 'GET':
+        return jsonify({
+            'success': False,
+            'error': 'Method Not Allowed',
+            'message': 'This endpoint requires a POST request with health metric data. Please use the dashboard to submit your data.'
+        }), 405
+    
     try:
         data = request.json
         

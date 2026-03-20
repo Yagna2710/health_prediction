@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Activity, Heart, Shield, AlertTriangle, CheckCircle, Clock, Utensils, IndianRupee, Loader2 } from 'lucide-react';
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
+import { Activity, Heart, Shield, AlertTriangle, CheckCircle, Utensils, IndianRupee, Loader2 } from 'lucide-react';
+import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
 function App() {
   const [formData, setFormData] = useState({
@@ -30,7 +30,7 @@ function App() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/predict', {
+      const response = await fetch('/api/predict', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -49,7 +49,6 @@ function App() {
     }
   };
 
-  const COLORS = ['#10b981', '#f59e0b', '#ef4444'];
   const getRiskColor = (level: string) => {
     if (level === 'Low Risk') return 'text-green-500';
     if (level === 'Medium Risk') return 'text-yellow-500';
@@ -65,12 +64,6 @@ function App() {
   const chartData = results ? [
     { name: 'Healthy', value: Math.max(0, 100 - (results.prediction.risk_probability * 100)) },
     { name: 'Risk', value: results.prediction.risk_probability * 100 }
-  ] : [];
-
-  const costData = results ? [
-    { name: 'Avg Claim', cost: results.analytics.average_claim },
-    { name: 'Est Cost', cost: results.analytics.estimated_cost },
-    { name: 'Coverage', cost: results.insurance.coverage_amount / 10 } // scaled for chart
   ] : [];
 
   return (
@@ -221,7 +214,7 @@ function App() {
                        <ResponsiveContainer width="100%" height="100%">
                          <PieChart>
                            <Pie data={chartData} innerRadius={35} outerRadius={50} dataKey="value" stroke="none">
-                             {chartData.map((entry, index) => (
+                             {chartData.map((_, index) => (
                                <Cell key={`cell-${index}`} fill={index === 0 ? '#10b981' : (results.prediction.risk_level === 'High Risk' ? '#ef4444' : '#f59e0b')} />
                              ))}
                            </Pie>
