@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Activity, Heart, Shield, AlertTriangle, CheckCircle, Utensils, IndianRupee, Loader2 } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import { API_BASE_URL } from './config';
 
 function App() {
   const [formData, setFormData] = useState({
@@ -30,7 +31,7 @@ function App() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch('/api/predict', {
+      const response = await fetch(`${API_BASE_URL}/predict`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

@@ -1,73 +1,77 @@
-# React + TypeScript + Vite
+# Health Prediction & Care Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack application for predictive health risk analysis, insurance recommendations, and preventive care management.
 
-Currently, two official plugins are available:
+## Project Structure
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+├── backend/          # Flask API (Deploy to Render)
+│   ├── app.py
+│   ├── requirements.txt
+│   ├── render.yaml
+│   └── .env.example
+├── src/             # React Frontend (Deploy to Vercel)
+│   ├── App.tsx
+│   ├── config.ts
+│   └── ...
+├── package.json
+├── vercel.json
+└── .env.example
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Deployment
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Backend (Render)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+1. Push code to GitHub
+2. Create new Web Service on [Render](https://dashboard.render.com/)
+3. Set root directory to `backend`
+4. Use build command: `pip install -r requirements.txt`
+5. Use start command: `gunicorn app:app`
+6. Add environment variable `CORS_ORIGINS` with your Vercel URL
+
+### Frontend (Vercel)
+
+1. Push code to GitHub
+2. Import project on [Vercel](https://vercel.com)
+3. Framework preset: Vite
+4. Add environment variable:
+   - `VITE_API_BASE_URL`: Your Render backend URL (e.g., `https://your-app.onrender.com`)
+5. Deploy
+
+## Local Development
+
+### Backend
+```bash
+cd backend
+pip install -r requirements.txt
+cp .env.example .env
+python app.py
 ```
+
+### Frontend
+```bash
+npm install
+cp .env.example .env
+npm run dev
+```
+
+## Environment Variables
+
+### Backend (.env)
+```
+PORT=5000
+FLASK_ENV=development
+CORS_ORIGINS=http://localhost:5173
+```
+
+### Frontend (.env)
+```
+VITE_API_BASE_URL=http://localhost:5000
+```
+
+## Tech Stack
+
+- Frontend: React + TypeScript + Vite + TailwindCSS
+- Backend: Flask + scikit-learn
+- Deployment: Vercel (Frontend) + Render (Backend)
