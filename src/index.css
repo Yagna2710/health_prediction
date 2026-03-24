@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-@source "./src";
 
 :root {
   --medical-blue: #0b5cff;

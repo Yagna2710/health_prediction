@@ -19,7 +19,7 @@ def index():
         }
     })
 
-@app.route('/predict', methods=['GET', 'POST'])
+@app.route('/api/predict', methods=['GET', 'POST'])
 def predict():
     if request.method == 'GET':
         return jsonify({
